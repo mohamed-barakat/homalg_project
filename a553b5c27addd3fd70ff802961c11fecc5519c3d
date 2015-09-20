@@ -85,3 +85,9 @@ Versions:
 homalg_project/: a553b5c ImageObject as an Attribute
 
 Versions:
+
+k-Points/: 2ed33fa outsourced declarations of module attributes
+
+Versions:
+2013.09.19 which is Mohamed's version
+2011.06.01 which is Alban's version
