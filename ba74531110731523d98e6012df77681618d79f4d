@@ -93,3 +93,9 @@ Versions:
 homalg_project/: ba74531 fixed error message
 
 Versions:
+
+k-Points/: 2ed33fa outsourced declarations of module attributes
+
+Versions:
+2013.09.19 which is Mohamed's version
+2011.06.01 which is Alban's version
