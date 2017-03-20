@@ -94,3 +94,9 @@ Versions:
 homalg_project/: 7b2672c simplified code in BasisOfModule
 
 Versions:
+
+k-Points/: 2ed33fa outsourced declarations of module attributes
+
+Versions:
+2013.09.19 which is Mohamed's version
+2011.06.01 which is Alban's version
