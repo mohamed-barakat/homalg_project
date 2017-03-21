@@ -94,3 +94,9 @@ Versions:
 homalg_project/: 2ae2b91 Only add to Genesis if Genesis is a list
 
 Versions:
+
+k-Points/: 2ed33fa outsourced declarations of module attributes
+
+Versions:
+2013.09.19 which is Mohamed's version
+2011.06.01 which is Alban's version
