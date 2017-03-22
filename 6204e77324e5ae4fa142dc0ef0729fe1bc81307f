@@ -94,3 +94,8 @@ Versions:
 homalg_project/: 6204e77 simplified code in _Functor_ImageObject_OnModules
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
