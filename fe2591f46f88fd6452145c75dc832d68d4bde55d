@@ -94,3 +94,8 @@ Versions:
 homalg_project/: fe2591f SetIsMorphism to true in _HomalgMap at two instances
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
