@@ -103,3 +103,8 @@ Versions:
 homalg_project/: 55b31d6 require AdmissibleInputForHomalgFunctors in functor_TheZeroMorphism for the second argument
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
