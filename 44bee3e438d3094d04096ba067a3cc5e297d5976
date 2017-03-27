@@ -103,3 +103,8 @@ Versions:
 homalg_project/: 44bee3e Priority for Display for IsHomalgGenerators is now 100
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
