@@ -103,3 +103,8 @@ Versions:
 homalg_project/: dd2134d _Functor_Hom_OnModules now does not evaluate GeneratorsOfModule( hom )
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
