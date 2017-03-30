@@ -103,3 +103,8 @@ Versions:
 homalg_project/: ac170de deleted obsolete local variable
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
