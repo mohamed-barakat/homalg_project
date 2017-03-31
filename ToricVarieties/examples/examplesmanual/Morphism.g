@@ -21,11 +21,11 @@ P1P2 := P1*P2;
 #!  which is a product of 2 toric varieties>
 ClassGroup( P1 );
 #! <A free left module of rank 1 on a free generator>
-Display(ByASmallerPresentation(last));
+Display(ByASmallerPresentation(ClassGroup( P1 )));
 #! Z^(1 x 1) 
 ClassGroup( P2 );
 #! <A free left module of rank 1 on a free generator>
-Display(ByASmallerPresentation(last));
+Display(ByASmallerPresentation(ClassGroup( P2 )));
 #! Z^(1 x 1)
 ClassGroup( P1P2 );
 #! <A free left module of rank 2 on free generators>
@@ -47,16 +47,16 @@ IsMorphism(M);
 #! true
 ClassGroup(M);
 #! <A homomorphism of left modules>
-Display(last);
-#! [ [  0,  1 ],
-#!   [  1,  0 ] ]
+Display(ClassGroup(M));
+#! [ [  1,  0 ],
+#!   [  0,  1 ] ]
 #! 
 #! the map is currently represented by the above 2 x 2 matrix
 ByASmallerPresentation(ClassGroup(M));
 #! <A non-zero homomorphism of left modules>
-Display(last);
-#! [ [  0,  1 ],
-#!   [  1,  0 ] ]
+Display(ByASmallerPresentation(ClassGroup(M)));
+#! [ [  1,  0 ],
+#!   [  0,  1 ] ]
 #! 
 #! the map is currently represented by the above 2 x 2 matrix
 

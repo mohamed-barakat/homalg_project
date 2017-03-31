@@ -21,7 +21,7 @@ Version :=  Maximum( [
 ## this line prevents merge conflicts
   "2015.03.31", ## Mohamed's version
 ## this line prevents merge conflicts
-  "2016.09.29", ## Martins version
+  "2017.03.31", ## Martins version
 ## this line prevents merge conflicts
    "2015.11.06", ## Homepage update version, to be removed
 ] ),
@@ -91,7 +91,7 @@ PackageDoc := rec(
 
 Dependencies := rec(
   GAP := ">=4.7",
-  NeededOtherPackages := [ [ "Convex", ">= 2015.11.06" ],
+  NeededOtherPackages := [ [ "NConvex", ">= 2017.01.01" ],
                            [ "GradedRingForHomalg", ">=2015.12.04" ],
                            [ "Modules", ">=2016.01.20" ],
                            [ "GradedModules", ">=2015.12.04" ],

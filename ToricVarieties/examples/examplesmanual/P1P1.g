@@ -23,7 +23,7 @@ IsVeryAmple( Polytope( P1P1 ) );
 ProjectiveEmbedding( P1P1 );
 #! [ |[ x1_*x2_ ]|, |[ x1_ ]|, |[ x1_*x2 ]|, |[ x2_ ]|,
 #! |[ 1 ]|, |[ x2 ]|, |[ x1*x2_ ]|, |[ x1 ]|, |[ x1*x2 ]| ]
-Length( last );
+Length( ProjectiveEmbedding( P1P1 ) );
 #! 9
 
 #! @EndExample
