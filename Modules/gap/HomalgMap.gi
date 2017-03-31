@@ -56,19 +56,29 @@ BindGlobal( "TheFamilyOfHomalgMaps",
 # four new types:
 BindGlobal( "TheTypeHomalgMapOfLeftModules",
         NewType( TheFamilyOfHomalgMaps,
-                IsMapOfFinitelyGeneratedModulesRep and IsHomalgLeftObjectOrMorphismOfLeftObjects ) );
+                AdmissibleInputForHomalgFunctors and
+                IsMapOfFinitelyGeneratedModulesRep and
+                IsHomalgLeftObjectOrMorphismOfLeftObjects ) );
 
 BindGlobal( "TheTypeHomalgMapOfRightModules",
         NewType( TheFamilyOfHomalgMaps,
-                IsMapOfFinitelyGeneratedModulesRep and IsHomalgRightObjectOrMorphismOfRightObjects ) );
+                AdmissibleInputForHomalgFunctors and
+                IsMapOfFinitelyGeneratedModulesRep and
+                IsHomalgRightObjectOrMorphismOfRightObjects ) );
 
 BindGlobal( "TheTypeHomalgSelfMapOfLeftModules",
         NewType( TheFamilyOfHomalgMaps,
-                IsMapOfFinitelyGeneratedModulesRep and IsHomalgSelfMap and IsHomalgLeftObjectOrMorphismOfLeftObjects ) );
+                AdmissibleInputForHomalgFunctors and
+                IsMapOfFinitelyGeneratedModulesRep and
+                IsHomalgSelfMap and
+                IsHomalgLeftObjectOrMorphismOfLeftObjects ) );
 
 BindGlobal( "TheTypeHomalgSelfMapOfRightModules",
         NewType( TheFamilyOfHomalgMaps,
-                IsMapOfFinitelyGeneratedModulesRep and IsHomalgSelfMap and IsHomalgRightObjectOrMorphismOfRightObjects ) );
+                AdmissibleInputForHomalgFunctors and
+                IsMapOfFinitelyGeneratedModulesRep and
+                IsHomalgSelfMap and
+                IsHomalgRightObjectOrMorphismOfRightObjects ) );
 
 ####################################
 #
@@ -241,7 +251,7 @@ InstallMethod( ZeroMutable,
         
   function( phi )
     
-    return HomalgMap( 0 * MatrixOfMap( phi ), Source( phi ), Range( phi ) );
+    return TheZeroMorphism( Source( phi ), Range( phi ) );
     
 end );
 
@@ -925,7 +935,7 @@ end );
 ##  </ManSection>
 ##  <#/GAPDoc>
 ##
-InstallGlobalFunction( HomalgMap,
+InstallGlobalFunction( _HomalgMap,
   function( arg )
     local nargs, source, pos_s, target, pos_t, R, type, matrix, left, matrices, reduced_matrices,
           mat, nr_rows, nr_columns, index_pair, morphism, option;
@@ -1165,14 +1175,14 @@ InstallGlobalFunction( HomalgMap,
                             morphism, type,
                             Source, source,
                             Range, target,
+                            IsMorphism, true,
                             IsOne, true );
                 else
                     ## Objectify:
                     ObjectifyWithAttributes(
                             morphism, type,
                             Source, source,
-                            Range, target,
-                            IsAutomorphism, true );
+                            Range, target );
                 fi;
             else
                 ## Objectify:
@@ -1180,6 +1190,7 @@ InstallGlobalFunction( HomalgMap,
                         morphism, type,
                         Source, source,
                         Range, target,
+                        IsMorphism, true,
                         IsEpimorphism, true );
             fi;
             
@@ -1250,7 +1261,28 @@ InstallGlobalFunction( HomalgMap,
     return morphism;
     
 end );
-  
+
+##
+InstallMethod( HomalgMap,
+        "for three objects",
+        [ IsObject, IsObject, IsObject ],
+        
+  _HomalgMap );
+
+##
+InstallMethod( HomalgMap,
+        "for two objects",
+        [ IsObject, IsObject ],
+        
+  _HomalgMap );
+
+##
+InstallMethod( HomalgMap,
+        "for an object",
+        [ IsObject ],
+        
+  _HomalgMap );
+
 ##  <#GAPDoc Label="HomalgZeroMap">
 ##  <ManSection>
 ##    <Func Arg="M, N" Name="HomalgZeroMap" Label="constructor for zero maps"/>
@@ -1453,7 +1485,7 @@ InstallMethod( AnIsomorphism,
         [ IsFinitelyPresentedModuleRep ],
         
   function( M )
-    local rel, left, N, iso;
+    local rel, N, iso;
     
     rel := RelationsOfModule( M );
     

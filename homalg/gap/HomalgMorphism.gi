@@ -586,6 +586,41 @@ InstallMethod( \*,
     
 end );
 
+##
+InstallGlobalFunction( INSTALL_TODO_LIST_ENTRIES_FOR_MORPHISMS_AND_IMAGE_EMBEDDINGS,
+        
+  function( mor, emb )
+    local entry;
+    
+    entry := ToDoListEntry( [ [ mor, "IsMorphism", true ] ],
+                     [ [ "IsMorphism( mor ) => IsMorphism( image embedding )",
+                         [ emb, "IsMorphism", [ IsMorphism, mor ] ],
+                         ]
+                       ]
+                     );
+    
+    AddToToDoList( entry );
+    
+    entry := ToDoListEntry( [ [ mor, "IsEpimorphism" ] ],
+                     [ [ "IsEpimorphism( mor ) <=> IsIsomorphism( image embedding )",
+                         [ emb, "IsIsomorphism", [ IsEpimorphism, mor ] ],
+                         ]
+                       ]
+                     );
+    
+    AddToToDoList( entry );
+    
+    entry := ToDoListEntry( [ [ emb, "IsIsomorphism" ] ],
+                     [ [ "IsIsomorphism( image embedding ) <=> IsEpimorphism( mor )",
+                         [ mor, "IsEpimorphism", [ IsIsomorphism, emb ] ],
+                         ]
+                       ]
+                     );
+    
+    AddToToDoList( entry );
+    
+end );
+
 ####################################
 #
 # View, Print, and Display methods:
@@ -711,7 +746,7 @@ end );
 ##
 InstallMethod( ViewString,
         "for homalg maps",
-        [ IsHomalgMorphism and IsMonomorphism ], 896,
+        [ IsHomalgMorphism and IsMonomorphism and IsMorphism ], 896,
         
   function( o )
     local s;
@@ -733,7 +768,7 @@ end );
 ##
 InstallMethod( ViewString,
         "for homalg maps",
-        [ IsHomalgMorphism and IsEpimorphism ], 897,
+        [ IsHomalgMorphism and IsEpimorphism and IsMorphism ], 897,
         
   function( o )
     local s;
@@ -755,7 +790,7 @@ end );
 ##
 InstallMethod( ViewString,
         "for homalg maps",
-        [ IsHomalgMorphism and IsSplitMonomorphism ], 1998,
+        [ IsHomalgMorphism and IsSplitMonomorphism and IsMorphism ], 1998,
         
   function( o )
     local s;
@@ -777,7 +812,7 @@ end );
 ##
 InstallMethod( ViewString,
         "for homalg maps",
-        [ IsHomalgMorphism and IsSplitEpimorphism ], 1999,
+        [ IsHomalgMorphism and IsSplitEpimorphism and IsMorphism ], 1999,
         
   function( o )
     local s;
@@ -799,7 +834,7 @@ end );
 ##
 InstallMethod( ViewString,
         "for homalg maps",
-        [ IsHomalgMorphism and IsIsomorphism ], 2000,
+        [ IsHomalgMorphism and IsIsomorphism and IsMorphism ], 2000,
         
   function( o )
     local s;
@@ -821,7 +856,7 @@ end );
 ##
 InstallMethod( ViewString,
         "for homalg maps",
-        [ IsHomalgMorphism and IsZero ], 2001,
+        [ IsHomalgMorphism and IsZero and IsMorphism ], 2001,
         
   function( o )
     local s;
@@ -843,7 +878,7 @@ end );
 ##
 InstallMethod( ViewString,
         "for homalg maps",
-        [ IsHomalgMorphism and IsIsomorphism and IsZero ], 2003,
+        [ IsHomalgMorphism and IsIsomorphism and IsZero and IsMorphism ], 2003,
         
   function( o )
     
@@ -920,7 +955,7 @@ end );
 ##
 InstallMethod( ViewString,
         "for homalg maps",
-        [ IsHomalgEndomorphism and IsMonomorphism ],
+        [ IsHomalgEndomorphism and IsMonomorphism and IsMorphism ],
         
   function( o )
     local s;
@@ -940,7 +975,7 @@ end );
 ##
 InstallMethod( ViewString,
         "for homalg maps",
-        [ IsHomalgEndomorphism and IsEpimorphism ], 996,
+        [ IsHomalgEndomorphism and IsEpimorphism and IsMorphism ], 996,
         
   function( o )
     local s;
@@ -960,7 +995,7 @@ end );
 ##
 InstallMethod( ViewString,
         "for homalg maps",
-        [ IsHomalgEndomorphism and IsSplitMonomorphism ], 997,
+        [ IsHomalgEndomorphism and IsSplitMonomorphism and IsMorphism ], 997,
         
   function( o )
     local s;
@@ -980,7 +1015,7 @@ end );
 ##
 InstallMethod( ViewString,
         "for homalg maps",
-        [ IsHomalgEndomorphism and IsSplitEpimorphism ], 2998,
+        [ IsHomalgEndomorphism and IsSplitEpimorphism and IsMorphism ], 2998,
         
   function( o )
     local s;
@@ -1002,7 +1037,7 @@ end );
 ##
 InstallMethod( ViewString,
         "for homalg maps",
-        [ IsHomalgEndomorphism and IsAutomorphism ], 2999,
+        [ IsHomalgEndomorphism and IsAutomorphism and IsMorphism ], 2999,
         
   function( o )
     local s;
@@ -1024,7 +1059,7 @@ end );
 ##
 InstallMethod( ViewString,
         "for homalg maps",
-        [ IsHomalgEndomorphism and IsOne ], 5000,
+        [ IsHomalgEndomorphism and IsOne and IsMorphism ], 5000,
         
   function( o )
     local s;
@@ -1042,7 +1077,7 @@ end );
 ##
 InstallMethod( ViewString,
         "for homalg maps",
-        [ IsHomalgEndomorphism and IsZero ], 5001,
+        [ IsHomalgEndomorphism and IsZero and IsMorphism ], 5001,
         
   function( o )
     local s;
@@ -1060,7 +1095,7 @@ end );
 ##
 InstallMethod( ViewString,
         "for homalg maps",
-        [ IsHomalgEndomorphism and IsAutomorphism and IsZero ], 3003,
+        [ IsHomalgEndomorphism and IsAutomorphism and IsZero and IsMorphism ], 3003,
         
   function( o )
     

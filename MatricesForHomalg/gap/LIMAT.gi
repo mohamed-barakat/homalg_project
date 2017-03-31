@@ -206,6 +206,23 @@ end );
 
 ##
 InstallImmediateMethod( IsRightRegular,
+        IsHomalgMatrix and IsLowerStairCaseMatrix and HasZeroColumns, 0,
+        
+  function( M )
+    local R;
+    
+    R := HomalgRing( M );
+    
+    if not ( HasIsIntegralDomain( R ) and IsIntegralDomain( R ) ) then
+        TryNextMethod( );
+    fi;
+    
+    return ZeroColumns( M ) = [ ];
+    
+end );
+
+##
+InstallImmediateMethod( IsRightRegular,
         IsHomalgMatrix and HasNrColumns and HasIsZero, 0,
         
   function( M )
@@ -218,6 +235,23 @@ InstallImmediateMethod( IsRightRegular,
     fi;
     
     TryNextMethod( );
+    
+end );
+
+##
+InstallImmediateMethod( IsLeftRegular,
+        IsHomalgMatrix and IsUpperStairCaseMatrix and HasZeroRows, 0,
+        
+  function( M )
+    local R;
+    
+    R := HomalgRing( M );
+    
+    if not ( HasIsIntegralDomain( R ) and IsIntegralDomain( R ) ) then
+        TryNextMethod( );
+    fi;
+    
+    return ZeroRows( M ) = [ ];
     
 end );
 
@@ -263,6 +297,40 @@ InstallImmediateMethod( IsLowerStairCaseMatrix,
     fi;
     
     TryNextMethod( );
+    
+end );
+
+##
+InstallImmediateMethod( RowRankOfMatrix,
+        IsHomalgMatrix and IsUpperStairCaseMatrix and HasNonZeroRows, 0,
+        
+  function( M )
+    local R;
+    
+    R := HomalgRing( M );
+    
+    if not ( HasIsIntegralDomain( R ) and IsIntegralDomain( R ) ) then
+        TryNextMethod( );
+    fi;
+    
+    return Length( NonZeroRows( M ) );
+    
+end );
+
+##
+InstallImmediateMethod( ColumnRankOfMatrix,
+        IsHomalgMatrix and IsLowerStairCaseMatrix and HasNonZeroColumns, 0,
+        
+  function( M )
+    local R;
+    
+    R := HomalgRing( M );
+    
+    if not ( HasIsIntegralDomain( R ) and IsIntegralDomain( R ) ) then
+        TryNextMethod( );
+    fi;
+    
+    return Length( NonZeroColumns( M ) );
     
 end );
 
@@ -556,6 +624,16 @@ end );
 
 ##
 InstallImmediateMethod( NonZeroRows,
+        IsHomalgMatrix and HasZeroRows and HasNrRows, 0,
+        
+  function( M )
+    
+    return Filtered( [ 1 .. NrRows( M ) ], a -> not a in ZeroRows( M ) );
+        
+end );
+
+##
+InstallImmediateMethod( NonZeroRows,
         IsHomalgMatrix and IsOne and HasNrRows, 0,
         
   function( M )
@@ -571,6 +649,16 @@ InstallImmediateMethod( NonZeroRows,
   function( M )
     
     return [ ];
+        
+end );
+
+##
+InstallImmediateMethod( NonZeroColumns,
+        IsHomalgMatrix and HasZeroColumns and HasNrColumns, 0,
+        
+  function( M )
+    
+    return Filtered( [ 1 .. NrColumns( M ) ], a -> not a in ZeroColumns( M ) );
         
 end );
 

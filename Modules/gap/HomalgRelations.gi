@@ -441,7 +441,7 @@ InstallMethod( HasNrRelations,
 end );
 
 ##
-InstallMethod( NrRelations,			### defines: NrRelations (NumberOfRows)
+InstallMethod( NrRelationsForRelations,		### defines: NrRelations (NumberOfColumns)
         "for sets of relations of homalg modules",
         [ IsHomalgRelationsOfRightModule ],
         
@@ -452,7 +452,7 @@ InstallMethod( NrRelations,			### defines: NrRelations (NumberOfRows)
 end );
 
 ##
-InstallMethod( NrRelations,			### defines: NrRelations (NumberOfRows)
+InstallMethod( NrRelationsForRelations,		### defines: NrRelations (NumberOfRows)
         "for sets of relations of homalg modules",
         [ IsHomalgRelationsOfLeftModule ],
         
@@ -461,6 +461,13 @@ InstallMethod( NrRelations,			### defines: NrRelations (NumberOfRows)
     return NrRows( MatrixOfRelations( rel ) );
     
 end );
+
+##
+InstallMethod( NrRelations,
+        "for sets of relations of homalg modules",
+        [ IsHomalgRelations ],
+        
+  NrRelationsForRelations );
 
 ##
 InstallMethod( CertainRelations,		### defines: CertainRelations
@@ -1044,8 +1051,106 @@ end );
 #
 ####################################
 
+## TODO: this should be obsolete in new Modules package
+InstallGlobalFunction( INSTALL_TODO_LIST_ENTRIES_FOR_RELATIONS,
+        
+  function( rels )
+    local entry;
+
+    entry := ToDoListEntry( [ [ rels, "HasEvaluatedMatrixOfRelations", true ], [ rels, "IsHomalgRelationsOfLeftModule", true ] ],
+                     [ [ "the NrRelations of a left presentation is NrRows",
+                         [ rels, "NrRelationsForRelations", [ NrRows, MatrixOfRelations( rels ) ] ], ## the Euler characteristic
+                         ]
+                       ]
+                     );
+    
+    AddToToDoList( entry );
+    
+    entry := ToDoListEntry( [ [ rels, "HasEvaluatedMatrixOfRelations", true ], [ rels, "IsHomalgRelationsOfRightModule", true ] ],
+                     [ [ "the NrRelations of a right presentation is NrColumns",
+                         [ rels, "NrRelationsForRelations", [ NrColumns, MatrixOfRelations( rels ) ] ], ## the Euler characteristic
+                         ]
+                       ]
+                     );
+    
+    AddToToDoList( entry );
+    
+end );
+
 ##
-InstallGlobalFunction( HomalgRelationsForLeftModule,
+InstallGlobalFunction( INSTALL_TODO_LIST_ENTRIES_FOR_MATRICES_OF_RELATIONS,
+        
+  function( mat, rels )
+    local entry;
+    
+    entry := ToDoListEntry( [ [ mat, "IsLeftRegular", true ], [ rels, "IsHomalgRelationsOfLeftModule", true ] ],
+                     [ [ "left regular matrices define injective left presentations",
+                         [ rels, "IsInjectivePresentation", true ], ## the Euler characteristic
+                         ]
+                       ]
+                     );
+    
+    AddToToDoList( entry );
+    
+    entry := ToDoListEntry( [ [ mat, "IsRightRegular", true ], [ rels, "IsHomalgRelationsOfRightModule", true ] ],
+                     [ [ "right regular matrices define injective right presentations",
+                         [ rels, "IsInjectivePresentation", true ], ## the Euler characteristic
+                         ]
+                       ]
+                     );
+    
+    AddToToDoList( entry );
+    
+end );
+
+##
+InstallGlobalFunction( INSTALL_TODO_LIST_ENTRIES_FOR_RELATIONS_OF_MODULES,
+        
+  function( rels, M )
+    local entry;
+    
+    ## this will be obsolete for the modules over CAP
+    entry := ToDoListEntry( [ [ rels, "IsTorsion" ] ],
+                     [ [ "if the relations HasIsTorsion propagate this property to the module",
+                         [ M, "IsTorsion", [ IsTorsion, rels ] ],
+                         ]
+                       ]
+                     );
+    
+    AddToToDoList( entry );
+    
+    entry := ToDoListEntry( [ [ rels, "IsInjectivePresentation", true ] ],
+                     [ [ "the rank of the presented module can be computed as NrGenerators - NrRelations",
+                         [ M, "RankOfObject", [ r -> NrGenerators( r ) - NrRelations( r ), rels ] ], ## the Euler characteristic
+                         ]
+                       ]
+                     );
+    
+    AddToToDoList( entry );
+    
+    entry := ToDoListEntry( [ [ rels, "NrRelationsForRelations" ] ],
+                     [ [ "f.p. modules with no relations are free",
+                         function() if NrRelations( rels ) = 0 then SetIsFree( M, true ); SetRankOfObject( M, NrGenerators( rels ) ); fi; end ],
+                       [ "compute the rank of modules integral domains presented by diagonal matrices",
+                         function()
+                           local R, diag;
+                           diag := MatrixOfRelations( rels );
+                           R := HomalgRing( M );
+                           if HasIsIntegralDomain( R ) and IsIntegralDomain( R ) and
+                              HasIsDiagonalMatrix( diag ) and IsDiagonalMatrix( diag ) then
+                               diag := DiagonalEntries( diag );
+                               SetRankOfObject( M, NrGenerators( rels ) - Length( Filtered( diag, a -> not IsZero( a ) ) ) );
+                           fi;
+                         end ],
+                       ]
+                     );
+    
+    AddToToDoList( entry );
+    
+end );
+
+##
+InstallGlobalFunction( _HomalgRelationsForLeftModule,
   function( arg )
     local l, relations, mat, M;
     
@@ -1071,12 +1176,7 @@ InstallGlobalFunction( HomalgRelationsForLeftModule,
                     relations, TheTypeHomalgRelationsOfLeftModule,
                     EvalMatrixOfRelations, arg{[ 1 .. 2 ]} );
             SetParent( relations, M );
-            if HasIsTorsion( relations ) then
-                SetIsTorsion( M, IsTorsion( relations ) );
-            fi;
-            if HasIsInjectivePresentation( relations ) and IsInjectivePresentation( relations ) then
-                SetRankOfObject( M, NrGenerators( relations ) - NrRelations( relations ) );	## the Euler characteristic
-            fi;
+            INSTALL_TODO_LIST_ENTRIES_FOR_RELATIONS_OF_MODULES( relations, M );
         else
             ## Objectify:
             ObjectifyWithAttributes(
@@ -1097,25 +1197,36 @@ InstallGlobalFunction( HomalgRelationsForLeftModule,
                 relations, TheTypeHomalgRelationsOfLeftModule,
                 EvaluatedMatrixOfRelations, mat );
         SetParent( relations, M );
-        if HasIsTorsion( relations ) then
-            SetIsTorsion( M, IsTorsion( relations ) );
-        fi;
-        if HasIsInjectivePresentation( relations ) and IsInjectivePresentation( relations ) then
-            SetRankOfObject( M, NrGenerators( relations ) - NrRelations( relations ) );	## the Euler characteristic
-        fi;
+        INSTALL_TODO_LIST_ENTRIES_FOR_RELATIONS_OF_MODULES( relations, M );
     else
         ## Objectify:
         ObjectifyWithAttributes(
                 relations, TheTypeHomalgRelationsOfLeftModule,
                 EvaluatedMatrixOfRelations, mat );
     fi;
+    
+    INSTALL_TODO_LIST_ENTRIES_FOR_MATRICES_OF_RELATIONS( mat, relations );
     
     return relations;
     
 end );
 
 ##
-InstallGlobalFunction( HomalgRelationsForRightModule,
+InstallMethod( HomalgRelationsForLeftModule,
+        "for two objects",
+        [ IsObject, IsObject ],
+        
+  _HomalgRelationsForLeftModule );
+
+##
+InstallMethod( HomalgRelationsForLeftModule,
+        "for an object",
+        [ IsObject ],
+        
+  _HomalgRelationsForLeftModule );
+
+##
+InstallGlobalFunction( _HomalgRelationsForRightModule,
   function( arg )
     local l, relations, mat, M;
     
@@ -1141,12 +1252,7 @@ InstallGlobalFunction( HomalgRelationsForRightModule,
                     relations, TheTypeHomalgRelationsOfRightModule,
                     EvalMatrixOfRelations, arg{[ 1 .. 2 ]} );
             SetParent( relations, M );
-            if HasIsTorsion( relations ) then
-                SetIsTorsion( M, IsTorsion( relations ) );
-            fi;
-            if HasIsInjectivePresentation( relations ) and IsInjectivePresentation( relations ) then
-                SetRankOfObject( M, NrGenerators( relations ) - NrRelations( relations ) );	## the Euler characteristic
-            fi;
+            INSTALL_TODO_LIST_ENTRIES_FOR_RELATIONS_OF_MODULES( relations, M );
         else
             ## Objectify:
             ObjectifyWithAttributes(
@@ -1167,12 +1273,7 @@ InstallGlobalFunction( HomalgRelationsForRightModule,
                 relations, TheTypeHomalgRelationsOfRightModule,
                 EvaluatedMatrixOfRelations, mat );
         SetParent( relations, M );
-        if HasIsTorsion( relations ) then
-            SetIsTorsion( M, IsTorsion( relations ) );
-        fi;
-        if HasIsInjectivePresentation( relations ) and IsInjectivePresentation( relations ) then
-            SetRankOfObject( M, NrGenerators( relations ) - NrRelations( relations ) );	## the Euler characteristic
-        fi;
+        INSTALL_TODO_LIST_ENTRIES_FOR_RELATIONS_OF_MODULES( relations, M );
     else
         ## Objectify:
         ObjectifyWithAttributes(
@@ -1180,9 +1281,25 @@ InstallGlobalFunction( HomalgRelationsForRightModule,
                 EvaluatedMatrixOfRelations, mat );
     fi;
     
+    INSTALL_TODO_LIST_ENTRIES_FOR_MATRICES_OF_RELATIONS( mat, relations );
+    
     return relations;
     
 end );
+
+##
+InstallMethod( HomalgRelationsForRightModule,
+        "for two objects",
+        [ IsObject, IsObject ],
+        
+  _HomalgRelationsForRightModule );
+
+##
+InstallMethod( HomalgRelationsForRightModule,
+        "for an object",
+        [ IsObject ],
+        
+  _HomalgRelationsForRightModule );
 
 ##
 InstallMethod( ShallowCopy,

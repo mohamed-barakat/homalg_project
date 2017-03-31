@@ -1,9 +1,9 @@
 all: doc
 
-doc: doc/manual.six
+doc: 
 	gap makedoc.g
 
-clean:
+docclean:
 	(cd doc ; ./clean)
 
-.PHONY: all doc clean
+.PHONY: all doc docclean

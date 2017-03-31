@@ -226,6 +226,13 @@ InstallValue( CommonHomalgTableForMAGMATools,
                    
                  end,
                
+               Determinant :=
+                 function( C )
+                   
+                   return homalgSendBlocking( [ "Determinant(", C, ")" ], HOMALG_IO.Pictograms.Determinant );
+                   
+                 end,
+               
                IsZeroMatrix :=
                  function( M )
                    
@@ -521,7 +528,7 @@ InstallValue( CommonHomalgTableForMAGMATools,
                    
                    if HasRelativeIndeterminatesOfPolynomialRing( R ) then
                        y := RelativeIndeterminatesOfPolynomialRing( R );
-                       if y <> [ var ] then
+                       if y <> var then
                            Error( "the list of given variables does not coincide with the list of relative indeterminates\n" );
                        elif Length( y ) > 1 then
                            Error( "this table entry can only handle univariate polynomial rings over some base ring\n" );

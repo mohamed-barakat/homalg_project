@@ -793,7 +793,7 @@ end );
 
 InstallMethod( ViewObj,
         "for homalg generators",
-        [ IsHomalgGenerators ],
+        [ IsHomalgGenerators ], 100,
         
   function( o )
     local g;
@@ -822,7 +822,7 @@ end );
 
 InstallMethod( Display,
         "for homalg generators",
-        [ IsHomalgGenerators ],
+        [ IsHomalgGenerators ], 100000,
         
   function( o )
     local g;
@@ -861,7 +861,7 @@ end );
 
 InstallMethod( Display,
         "for homalg generators",
-        [ IsHomalgGenerators and HasProcedureToReadjustGenerators ],
+        [ IsHomalgGenerators and HasProcedureToReadjustGenerators ], 100000,
         
   function( o )
     local g, mat, proc, l, i;

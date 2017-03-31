@@ -113,6 +113,8 @@ DeclareRepresentation( "IsCategoryOfFinitelyPresentedRightModulesRep",
         IsCategoryOfModules,
         [ ] );
 
+DeclareFilter( "AdmissibleInputForHomalgFunctors" );
+
 ####################################
 #
 # families and types:
@@ -126,11 +128,15 @@ BindGlobal( "TheFamilyOfHomalgModules",
 # two new types:
 BindGlobal( "TheTypeHomalgLeftFinitelyPresentedModule",
         NewType( TheFamilyOfHomalgModules,
-                IsFinitelyPresentedModuleRep and IsHomalgLeftObjectOrMorphismOfLeftObjects ) );
+                AdmissibleInputForHomalgFunctors and
+                IsFinitelyPresentedModuleRep and
+                IsHomalgLeftObjectOrMorphismOfLeftObjects ) );
 
 BindGlobal( "TheTypeHomalgRightFinitelyPresentedModule",
         NewType( TheFamilyOfHomalgModules,
-                IsFinitelyPresentedModuleRep and IsHomalgRightObjectOrMorphismOfRightObjects ) );
+                AdmissibleInputForHomalgFunctors and
+                IsFinitelyPresentedModuleRep and
+                IsHomalgRightObjectOrMorphismOfRightObjects ) );
 
 # two new types:
 BindGlobal( "TheTypeCategoryOfFinitelyPresentedLeftModules",
@@ -396,8 +402,19 @@ InstallMethod( GeneratorsOfModule,		### defines: GeneratorsOfModule (GeneratorsO
         [ IsHomalgModule ],
         
   function( M )
+    local gens;
     
-    return GeneratorsOfModule( M, PositionOfTheDefaultSetOfGenerators( M ) );
+    gens := GeneratorsOfModule( M, PositionOfTheDefaultSetOfGenerators( M ) );
+    
+    if not HasProcedureToNormalizeGenerators( gens ) and HasProcedureToNormalizeGenerators( M ) then
+        SetProcedureToNormalizeGenerators( gens, ProcedureToNormalizeGenerators( M ) );
+    fi;
+    
+    if not HasProcedureToReadjustGenerators( gens ) and HasProcedureToReadjustGenerators( M ) then
+        SetProcedureToReadjustGenerators( gens, ProcedureToReadjustGenerators( M ) );
+    fi;
+    
+    return gens;
     
 end );
 
@@ -601,8 +618,9 @@ InstallMethod( PresentationMorphism,
     
     if not HasCokernelEpi( pres ) then
         ## the zero'th component of the quasi-isomorphism,
-        ## which in this case is simplfy the natural epimorphism onto the module
+        ## which in this case is simply the natural epimorphism onto the module
         epi := HomalgIdentityMap( Range( pres ), M );
+        
         SetIsEpimorphism( epi, true );
         SetCokernelEpi( pres, epi );
     fi;
@@ -1203,18 +1221,9 @@ InstallMethod( AddANewPresentation,
         SetPositionOfTheDefaultPresentation( M, l+1 );
     fi;
     
-    if HasNrRelations( rel ) and NrRelations( rel ) = 0 then
-        SetIsFree( M, true );
-        SetRankOfObject( M, NrGenerators( rel ) );
-    elif HasIsInjectivePresentation( rel ) and IsInjectivePresentation( rel ) then
-        SetRankOfObject( M, NrGenerators( rel ) - NrRelations( rel ) );	## the Euler characteristic
-    fi;
-    
-    if HasIsTorsion( rel ) then
-        SetIsTorsion( M, IsTorsion( rel ) );
-    fi;
-    
     SetParent( rel, M );
+    
+    INSTALL_TODO_LIST_ENTRIES_FOR_RELATIONS_OF_MODULES( rel, M );
     
     return M;
     
@@ -1299,18 +1308,9 @@ InstallMethod( AddANewPresentation,
         SetIsCyclic( M, true );
     fi;
     
-    if HasNrRelations( rel ) and NrRelations( rel ) = 0 then
-        SetIsFree( M, true );
-        SetRankOfObject( M, NrGenerators( rel ) );
-    elif HasIsInjectivePresentation( rel ) and IsInjectivePresentation( rel ) then
-        SetRankOfObject( M, NrGenerators( rel ) - NrRelations( rel ) );	## the Euler characteristic
-    fi;
-    
-    if HasIsTorsion( rel ) then
-        SetIsTorsion( M, IsTorsion( rel ) );
-    fi;
-    
     SetParent( rel, M );
+    
+    INSTALL_TODO_LIST_ENTRIES_FOR_RELATIONS_OF_MODULES( rel, M );
     
     return M;
     
@@ -1322,30 +1322,16 @@ InstallMethod( BasisOfModule,			### CAUTION: has the side effect of possibly aff
         [ IsFinitelyPresentedModuleRep ],
         
   function( M )
-    local rel, bas, mat, R, diag, rk;
+    local rel, bas, mat, R, rk;
     
     rel := RelationsOfModule( M );
     
     if not ( HasCanBeUsedToDecideZeroEffectively( rel ) and CanBeUsedToDecideZeroEffectively( rel ) ) then
         bas := BasisOfModule( rel );		## CAUTION: might have a side effect on rel
         
-        AddANewPresentation( M, bas );		## this might set CanBeUsedToDecideZeroEffectively( rel ) to true
-    else
-        bas := rel;
-    fi;
-    
-    if not HasRankOfObject( M ) then
-       mat := MatrixOfRelations( rel );
-       R := HomalgRing( M );
-       if HasIsIntegralDomain( R ) and IsIntegralDomain( R ) and
-          HasIsDiagonalMatrix( mat ) and IsDiagonalMatrix( mat ) then
-           diag := DiagonalEntries( mat );
-           rk := Length( Filtered( diag, IsZero ) ) + NrGenerators( M ) - Length( diag );
-           SetRankOfObject( M, rk );
-       elif HasIsInjectivePresentation( bas ) and IsInjectivePresentation( bas ) then
-           rk := NrGenerators( M ) - NrRelations( M );	## the euler characteristic
-           SetRankOfObject( M, rk );
-       fi;
+        if not IsIdenticalObj( rel, bas ) then
+            AddANewPresentation( M, bas );	## this might set CanBeUsedToDecideZeroEffectively( rel ) to true
+        fi;
     fi;
     
     return RelationsOfModule( M );
@@ -1477,7 +1463,7 @@ InstallMethod( GetRidOfZeroGenerators,	### defines: GetRidOfZeroGenerators (Bett
         [ IsFinitelyPresentedModuleRep ],
         
   function( M )
-    local bl, rel, diagonal, id, T, TI;
+    local bl, rel, id, T, TI;
     
     bl := NonZeroGenerators( M );
     
@@ -1485,33 +1471,17 @@ InstallMethod( GetRidOfZeroGenerators,	### defines: GetRidOfZeroGenerators (Bett
         
         rel := MatrixOfRelations( M );
         
-        if HasIsDiagonalMatrix( rel ) then
-            if IsDiagonalMatrix( rel ) then
-                diagonal := true;
-            else
-                diagonal := false;
-            fi;
-        else
-            diagonal := fail;
-        fi;
-        
         id := HomalgIdentityMatrix( NrGenerators( M ), HomalgRing( M ) );
         
         if IsHomalgLeftObjectOrMorphismOfLeftObjects( M ) then
             rel := CertainColumns( rel, bl );
             rel := CertainRows( rel, NonZeroRows( rel ) );
-            if diagonal <> fail and diagonal then
-                SetIsDiagonalMatrix( rel, true );
-            fi;
             rel := HomalgRelationsForLeftModule( rel, M );
             T := CertainColumns( id, bl );
             TI := CertainRows( id, bl );
         else
             rel := CertainRows( rel, bl );
             rel := CertainColumns( rel, NonZeroColumns( rel ) );
-            if diagonal <> fail and diagonal then
-                SetIsDiagonalMatrix( rel, true );
-            fi;
             rel := HomalgRelationsForRightModule( rel, M );
             T := CertainRows( id, bl );
             TI := CertainColumns( id, bl );
@@ -1987,6 +1957,8 @@ InstallMethod( Presentation,
 #    SetParent( gens, M );
     SetParent( rel, M );
     
+    INSTALL_TODO_LIST_ENTRIES_FOR_RELATIONS_OF_MODULES( rel, M );
+    
     return M;
     
 end );
@@ -2037,6 +2009,8 @@ InstallMethod( Presentation,
 #    SetParent( gens, M );
     SetParent( rel, M );
     
+    INSTALL_TODO_LIST_ENTRIES_FOR_RELATIONS_OF_MODULES( rel, M );
+    
     return M;
     
 end );
@@ -2083,6 +2057,8 @@ InstallMethod( Presentation,
     
 #    SetParent( gens, M );
     SetParent( rel, M );
+    
+    INSTALL_TODO_LIST_ENTRIES_FOR_RELATIONS_OF_MODULES( rel, M );
     
     return M;
     
@@ -2134,6 +2110,8 @@ InstallMethod( Presentation,
 #    SetParent( gens, M );
     SetParent( rel, M );
     
+    INSTALL_TODO_LIST_ENTRIES_FOR_RELATIONS_OF_MODULES( rel, M );
+    
     return M;
     
 end );
@@ -2182,6 +2160,8 @@ InstallMethod( LeftPresentation,
 #    SetParent( gens, M );
     SetParent( RelationsOfModule( M ), M );
     
+    INSTALL_TODO_LIST_ENTRIES_FOR_RELATIONS_OF_MODULES( RelationsOfModule( M ), M );
+    
     return M;
     
 end );
@@ -2217,6 +2197,8 @@ InstallMethod( LeftPresentation,
     
 #    SetParent( gens, M );
     SetParent( RelationsOfModule( M ), M );
+    
+    INSTALL_TODO_LIST_ENTRIES_FOR_RELATIONS_OF_MODULES( RelationsOfModule( M ), M );
     
     return M;
     
@@ -2310,6 +2292,8 @@ InstallMethod( RightPresentation,
 #    SetParent( gens, M );
     SetParent( RelationsOfModule( M ), M );
     
+    INSTALL_TODO_LIST_ENTRIES_FOR_RELATIONS_OF_MODULES( RelationsOfModule( M ), M );
+    
     return M;
     
 end );
@@ -2345,6 +2329,8 @@ InstallMethod( RightPresentation,
     
 #    SetParent( gens, M );
     SetParent( RelationsOfModule( M ), M );
+    
+    INSTALL_TODO_LIST_ENTRIES_FOR_RELATIONS_OF_MODULES( RelationsOfModule( M ), M );
     
     return M;
     

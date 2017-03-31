@@ -52,6 +52,9 @@ InstallGlobalFunction( _Functor_Cokernel_OnModules,	### defines: Cokernel(Epi)
     ## for graded modules we need to know on which presentation the cokernel was computed
     epi!.DefaultPresentationOfCokernelEpi := [ p, 1 ];
     
+    ## even if IsMorphism( phi ) = false, in this data structure IsMorphism( epi ) = true
+    SetIsMorphism( epi, true );
+    
     ## we cannot check this assertion, since
     ## checking it would cause an infinite loop
     SetIsEpimorphism( epi, true );
@@ -152,12 +155,9 @@ InstallGlobalFunction( _Functor_ImageObject_OnModules,	### defines: ImageObject(
     
     ## check assertion
     Assert( 5, IsMonomorphism( emb ) );
+    SetIsMonomorphism( emb, true );
     
-    if HasIsEpimorphism( phi ) and IsEpimorphism( phi ) then
-        SetIsIsomorphism( emb, true );
-    else
-        SetIsMonomorphism( emb, true );
-    fi;
+    INSTALL_TODO_LIST_ENTRIES_FOR_MORPHISMS_AND_IMAGE_EMBEDDINGS( phi, emb );
     
     ## set the attribute ImageObjectEmb (specific for ImageObject):
     ## (since ImageObjectEmb is listed below as a natural transformation
@@ -201,7 +201,8 @@ InstallValue( functor_ImageObject_for_fp_modules,
                 [ "natural_transformation", "ImageObjectEmb" ],
                 [ "number_of_arguments", 1 ],
                 [ "1", [ [ "covariant" ],
-                        [ IsMapOfFinitelyGeneratedModulesRep ] ] ],
+                        [ IsMapOfFinitelyGeneratedModulesRep and
+                          AdmissibleInputForHomalgFunctors ] ] ],
                 [ "OnObjects", _Functor_ImageObject_OnModules ]
                 )
         );
@@ -367,10 +368,8 @@ InstallGlobalFunction( _Functor_Hom_OnModules,		### defines: Hom (object part)
     
     #=====# end of the core procedure #=====#
     
-    gen := GeneratorsOfModule( hom );
-    
-    SetProcedureToNormalizeGenerators( gen, [ proc_to_normalize_generators, [ M, s ], [ N, t ] ] );
-    SetProcedureToReadjustGenerators( gen, [ proc_to_readjust_generators, [ M, s, ], [ N, t ] ] );
+    SetProcedureToNormalizeGenerators( hom, [ proc_to_normalize_generators, [ M, s ], [ N, t ] ] );
+    SetProcedureToReadjustGenerators( hom, [ proc_to_readjust_generators, [ M, s, ], [ N, t ] ] );
     
     return hom;
     
@@ -433,7 +432,9 @@ InstallGlobalFunction( _Functor_Hom_OnMaps,	### defines: Hom (morphism part)
             
             SetIsMonomorphism( mor, true );
             
-        elif HasIsEpimorphism( phi ) and IsEpimorphism( phi ) and
+        fi;
+        
+        if HasIsEpimorphism( phi ) and IsEpimorphism( phi ) and
           HasIsProjective( L ) and IsProjective( L ) then
             
             ## check assertion
@@ -452,8 +453,10 @@ InstallGlobalFunction( _Functor_Hom_OnMaps,	### defines: Hom (morphism part)
             Assert( 3, IsMonomorphism( mor ) );
             
             SetIsMonomorphism( mor, true );
-            
-        elif HasIsMonomorphism( phi ) and IsMonomorphism( phi ) and
+
+        fi;
+        
+        if HasIsMonomorphism( phi ) and IsMonomorphism( phi ) and
           HasIsInjective( L ) and IsInjective( L ) then
             
             ## check assertion
@@ -753,7 +756,9 @@ InstallGlobalFunction( _Functor_TensorProduct_OnMaps,	### defines: TensorProduct
         
         SetIsEpimorphism( mor, true );
         
-    elif HasIsMonomorphism( phi ) and IsMonomorphism( phi ) and
+    fi;
+    
+    if HasIsMonomorphism( phi ) and IsMonomorphism( phi ) and
       HasIsProjective( L ) and IsProjective( L ) then
         
         ## check assertion
@@ -1219,11 +1224,11 @@ InstallFunctorOnObjects( functor_ImageObject_for_fp_modules );
 ##  
 ##  the map is currently represented by the above 3 x 4 matrix
 ##  gap> homNM := Source( psi );
-##  <A non-torsion right module on 4 generators satisfying 2 relations>
+##  <A rank 2 right module on 4 generators satisfying 2 relations>
 ##  gap> IsIdenticalObj( homNM, Hom( N, M ) );	## the caching at work
 ##  true
 ##  gap> homMM := Range( psi );
-##  <A non-torsion right module on 3 generators satisfying 2 relations>
+##  <A rank 1 right module on 3 generators satisfying 2 relations>
 ##  gap> IsIdenticalObj( homMM, Hom( M, M ) );	## the caching at work
 ##  true
 ##  gap> Display( homNM );
@@ -1380,8 +1385,8 @@ InstallFunctorOnObjects( functor_ImageObject_for_fp_modules );
 ##  gap> filt := FiltrationBySpectralSequence( II_E );
 ##  <A descending filtration with degrees [ -1 .. 0 ] and graded parts:
 ##    
-##  -1:	<A non-zero cyclic right module on a cyclic generator satisfying yet unkno\
-##  wn relations>
+##  -1:	<A non-zero cyclic torsion right module on a cyclic generator satisfying
+##       yet unknown relations>
 ##     0:	<A rank 1 right module on 3 generators satisfying 2 relations>
 ##  of
 ##  <A right module on 4 generators satisfying yet unknown relations>>
@@ -1392,7 +1397,7 @@ InstallFunctorOnObjects( functor_ImageObject_for_fp_modules );
 ##   relation>
 ##     0:	<A rank 1 right module on 2 generators satisfying 1 relation>
 ##  of
-##  <A non-torsion right module on 3 generators satisfying 2 relations>>
+##  <A rank 1 right module on 3 generators satisfying 2 relations>>
 ##  gap> Display( filt );
 ##  Degree -1:
 ##  
@@ -1463,7 +1468,7 @@ InstallFunctor( Functor_Hom_for_fp_modules );
 ##  <A rank 1 right module on 2 generators satisfying 1 relation>
 ##  gap> Display( L );
 ##  Z/< 3 > + Z^(1 x 1)
-##  gap> L;	## the display method found out further information about the module L
+##  gap> L;
 ##  <A rank 1 right module on 2 generators satisfying 1 relation>
 ##  gap> psi := phi * L;
 ##  <A homomorphism of right modules>
@@ -1559,7 +1564,8 @@ InstallFunctor( Functor_Hom_for_fp_modules );
 ##  gap> ByASmallerPresentation( filt );
 ##  <An ascending filtration with degrees [ -1 .. 0 ] and graded parts:
 ##     0:	<A rank 1 left module presented by 1 relation for 2 generators>
-##    -1:	<A non-zero left module presented by 2 relations for 2 generators>
+##    -1:	<A non-zero torsion left module presented by 2 relations
+##               for 2 generators>
 ##  of
 ##  <A rank 1 left module presented by 3 relations for 4 generators>>
 ##  gap> Display( filt );
@@ -1638,7 +1644,7 @@ end );
 ##  gap> M := HomalgDiagonalMatrix( [ 2 .. 4 ], ZZ );
 ##  <An unevaluated diagonal 3 x 3 matrix over an internal ring>
 ##  gap> M := LeftPresentation( M );
-##  <A left module presented by 3 relations for 3 generators>
+##  <A torsion left module presented by 3 relations for 3 generators>
 ##  gap> Display( M );
 ##  Z/< 2 > + Z/< 3 > + Z/< 4 >
 ##  gap> M;
