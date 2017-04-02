@@ -103,3 +103,8 @@ Versions:
 homalg_project/: 96c49dd method filter for LargestMinimalNumberOfLocalGenerators now allows graded modules
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
