@@ -103,3 +103,8 @@ Versions:
 homalg_project/: 9b16348 fixed CreateHomalgMatrixFromSparseString for MAGMA
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
