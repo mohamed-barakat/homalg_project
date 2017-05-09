@@ -103,3 +103,8 @@ Versions:
 homalg_project/: 92e14ca RingName for residue class rings now sets ring_rel!.StringOfEntries
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
