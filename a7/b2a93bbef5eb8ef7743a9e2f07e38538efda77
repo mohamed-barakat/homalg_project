@@ -103,3 +103,8 @@ Versions:
 homalg_project/: a7b2a93 Immediate methods for IsInjectivePresentation are now obsolete
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
