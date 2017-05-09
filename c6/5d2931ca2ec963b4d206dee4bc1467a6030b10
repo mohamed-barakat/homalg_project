@@ -103,3 +103,8 @@ Versions:
 homalg_project/: c65d293 declared and installed new technical attribute NrGeneratorsForRelations
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
