@@ -103,3 +103,8 @@ Versions:
 homalg_project/: 44d8b82 removed logic code in BasisOfModule methods for relations
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
