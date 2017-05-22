@@ -103,3 +103,8 @@ Versions:
 homalg_project/: a92a508 added assertion: Assert( 3, IsEpimorphism( pi ) );
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
