@@ -103,3 +103,8 @@ Versions:
 homalg_project/: 87b187c Merge commit 'sebasguts/master~1' into devel
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
