@@ -103,3 +103,8 @@ Versions:
 homalg_project/: f3c6bba added a fallback method DecideZero for homalg ring elements
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
