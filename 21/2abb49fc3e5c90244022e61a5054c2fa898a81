@@ -103,3 +103,8 @@ Versions:
 homalg_project/: 212abb4 LaunchCAS_IO_ForHomalg now accepts a list of options as a 3rd argument
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
