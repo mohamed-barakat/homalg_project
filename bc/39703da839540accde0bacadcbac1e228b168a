@@ -103,3 +103,8 @@ Versions:
 homalg_project/: bc39703 support Singular's primary decomposition over Z
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
