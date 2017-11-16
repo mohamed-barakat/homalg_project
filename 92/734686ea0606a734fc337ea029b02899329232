@@ -103,3 +103,8 @@ Versions:
 homalg_project/: 92734686 Merge branch 'pr-179' into devel
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
