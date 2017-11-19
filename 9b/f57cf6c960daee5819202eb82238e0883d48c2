@@ -103,3 +103,8 @@ Versions:
 homalg_project/: 9bf57cf6 pass order as a GAP option to Singular's PolynomialRing constructor
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
