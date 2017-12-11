@@ -103,3 +103,8 @@ Versions:
 homalg_project/: 15e5251e updated docu to reflect change of output in GAP 4.8(.8?)
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
