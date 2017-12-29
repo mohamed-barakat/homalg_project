@@ -103,3 +103,8 @@ Versions:
 homalg_project/: e1381ab7 r / R now works for IsHomalgInternalRingRep( R )
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
