@@ -103,3 +103,8 @@ Versions:
 homalg_project/: 1f27c922 declared and installed Eliminate for ideals
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
