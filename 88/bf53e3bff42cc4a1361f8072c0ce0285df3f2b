@@ -103,3 +103,8 @@ Versions:
 homalg_project/: 88bf53e3 moved CommonHomalgTableForRings from RingsForHomalg -> MatricesForHomalg
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
