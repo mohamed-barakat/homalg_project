@@ -103,3 +103,8 @@ Versions:
 homalg_project/: 8409a73e prepare for accepting matrices [[ 0, x ]] over polynomial rings
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
