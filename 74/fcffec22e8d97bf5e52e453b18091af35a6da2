@@ -103,3 +103,8 @@ Versions:
 homalg_project/: 74fcffec added constructor for homalg-internal polynomial rings
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
