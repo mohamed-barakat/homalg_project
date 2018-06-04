@@ -103,3 +103,8 @@ Versions:
 homalg_project/: 88231fc3 Eliminate now returns empty 0x1 matrix if result is a zero matrix
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
