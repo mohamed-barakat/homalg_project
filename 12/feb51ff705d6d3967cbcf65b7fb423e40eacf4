@@ -107,3 +107,8 @@ Versions:
 homalg_project/: 12feb51f AffineDimension( ZZ / 2 ) = 0 (not 1)
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
