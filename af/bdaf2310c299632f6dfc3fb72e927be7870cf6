@@ -107,3 +107,8 @@ Versions:
 homalg_project/: afbdaf23 increased 4ti2Interface version
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
