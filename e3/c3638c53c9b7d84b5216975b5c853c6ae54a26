@@ -107,3 +107,8 @@ Versions:
 homalg_project/: e3c3638c added PrimaryDecomposition to homalgTable of ZZ
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
