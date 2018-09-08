@@ -107,3 +107,8 @@ Versions:
 homalg_project/: 8544758e d&i missing operations/methods for UnionOfRowsOp/UnionOfColumnsOp
 
 Versions:
+
+HomalgToCAS/: a303b94 added missing Add( used_pointers, t ) in homalgCreateStringForExternalCASystem
+
+Versions:
+ 2015.03.20
