@@ -274,7 +274,7 @@ InstallMethod( KernelSubobject,
     if HasIsMonomorphism( psi ) and IsMonomorphism( psi ) then
         ker := ZeroSubobject( S );
     else
-        ker := Subobject( ReducedSyzygiesGenerators( psi ), S );
+        ker := Subobject( SyzygiesGenerators( psi ), S );
     fi;
     
     if HasIsEpimorphism( psi ) and IsEpimorphism( psi ) then

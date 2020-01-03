@@ -32,7 +32,3 @@ DeclareOperation( "BasisOfModule",
 
 DeclareOperation( "OnBasisOfPresentation",
         [ IsHomalgObjectOrMorphism ] );
-
-DeclareOperation( "OnLessGenerators",
-        [ IsHomalgObjectOrMorphism ] );
-

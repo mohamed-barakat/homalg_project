@@ -1068,10 +1068,9 @@ InstallFunctorOnObjects( functor_ImageObject_for_fp_modules );
 ##  gap> phi;
 ##  <A homomorphism of left modules>
 ##  gap> ker := Kernel( phi );
-##  <A cyclic left module presented by yet unknown relations for a cyclic generato\
-##  r>
+##  <A cyclic torsion left module presented by 1 relation for a cyclic generator>
 ##  gap> Display( ker );
-##  Z/< -3 >
+##  Z/< 3 >
 ##  gap> ByASmallerPresentation( last );
 ##  <A cyclic torsion left module presented by 1 relation for a cyclic generator>
 ##  gap> Display( ker );
@@ -1363,7 +1362,7 @@ InstallFunctorOnObjects( functor_ImageObject_for_fp_modules );
 ##  <A descending filtration with degrees [ -1 .. 0 ] and graded parts:
 ##    
 ##  -1:	<A non-zero cyclic torsion right module on a cyclic generator satisfying
-##       yet unknown relations>
+##       1 relation>
 ##     0:	<A rank 1 right module on 3 generators satisfying 2 relations>
 ##  of
 ##  <A right module on 4 generators satisfying yet unknown relations>>
@@ -1440,7 +1439,7 @@ InstallFunctor( Functor_Hom_for_fp_modules );
 ##  gap> phi;
 ##  <A homomorphism of left modules>
 ##  gap> L := Hom( ZZ, M );
-##  <A rank 1 right module on 3 generators satisfying yet unknown relations>
+##  <A rank 1 right module on 2 generators satisfying 1 relation>
 ##  gap> ByASmallerPresentation( L );
 ##  <A rank 1 right module on 2 generators satisfying 1 relation>
 ##  gap> Display( L );
@@ -1535,9 +1534,9 @@ InstallFunctor( Functor_Hom_for_fp_modules );
 ##  gap> filt := FiltrationBySpectralSequence( II_E );
 ##  <An ascending filtration with degrees [ -1 .. 0 ] and graded parts:
 ##     0:	<A rank 1 left module presented by 1 relation for 2 generators>
-##    -1:	<A non-zero left module presented by 2 relations for 2 generators>
+##  -1:	<A non-zero left module presented by 5 relations for 3 generators>
 ##  of
-##  <A non-zero left module presented by 10 relations for 6 generators>>
+##  <A non-zero left module presented by 7 relations for 6 generators>>
 ##  gap> ByASmallerPresentation( filt );
 ##  <An ascending filtration with degrees [ -1 .. 0 ] and graded parts:
 ##     0:	<A rank 1 left module presented by 1 relation for 2 generators>

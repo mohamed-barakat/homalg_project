@@ -18,9 +18,9 @@
 ##  gap> Display( ZZ );
 ##  <An internal ring>
 ##  gap> R := ZZ / 2^8;
-##  <A residue class ring>
-##  gap> Display( R );
 ##  Z/( 256 )
+##  gap> Display( R );
+##  <A residue class ring>
 ##  gap> M := LeftPresentation( [ 2^5 ], R );
 ##  <A cyclic left module presented by 1 relation for a cyclic generator>
 ##  gap> Display( M );

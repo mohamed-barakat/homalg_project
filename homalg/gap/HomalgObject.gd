@@ -690,6 +690,9 @@ DeclareOperation( "DecideZero",
 DeclareOperation( "ByASmallerPresentation",
         [ IsHomalgObjectOrMorphism ] );
 
+DeclareOperation( "OnLessGenerators",
+        [ IsHomalgObjectOrMorphism ] );
+
 DeclareOperation( "OnPresentationByFirstMorphismOfResolution",
         [ IsHomalgObjectOrMorphism ] );
 

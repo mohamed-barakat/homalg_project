@@ -7,7 +7,7 @@ Subtitle := "A Package for Localization of Polynomial Rings",
 Version := Maximum( [ ##To prevent merge conflicts
   "2020.04.30", ## Markus' version
 ## this line prevents merge conflicts
-  "2019.09.02", ## Mohamed's version
+  "2020.10.02", ## Mohamed's version
 ## this line prevents merge conflicts
   "2019.08.01", ## Max's version
 ## this line prevents merge conflicts
@@ -107,7 +107,7 @@ Dependencies := rec(
   NeededOtherPackages := [
                    [ "MatricesForHomalg", ">= 2020.06.27" ],
                    [ "HomalgToCAS", ">= 2020.06.27" ],
-                   [ "Modules", ">= 2020.02.05" ],
+                   [ "Modules", ">= 2020.10.02" ],
                    [ "GAPDoc", ">= 1.0" ]
                    ],
   SuggestedOtherPackages := [ ],

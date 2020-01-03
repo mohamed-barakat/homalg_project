@@ -92,13 +92,13 @@
 ##  gap> filt := FiltrationBySpectralSequence( II_E, 0 );
 ##  <A descending filtration with degrees [ -3 .. 0 ] and graded parts:
 ##  
-##  -3:	<A non-zero cyclic torsion left module presented by yet unknown relations \
-##  for a cyclic generator>
-##    -2:	<A non-zero left module presented by 17 relations for 6 generators>
-##    -1:	<A non-zero left module presented by 28 relations for 12 generators>
+##  -3:	<A non-zero cyclic torsion left module presented by 3 relations for a cycl\
+##  ic generator>
+##    -2:	<A non-zero left module presented by 15 relations for 4 generators>
+##    -1:	<A non-zero left module presented by 28 relations for 14 generators>
 ##     0:	<A non-zero left module presented by 13 relations for 10 generators>
 ##  of
-##  <A left module presented by yet unknown relations for 49 generators>>
+##  <A left module presented by yet unknown relations for 47 generators>>
 ##  gap> ByASmallerPresentation( filt );
 ##  <A descending filtration with degrees [ -3 .. 0 ] and graded parts:
 ##  
@@ -108,7 +108,7 @@
 ##    -1:	<A non-zero left module presented by 21 relations for 8 generators>
 ##     0:	<A non-zero left module presented by 11 relations for 10 generators>
 ##  of
-##  <A non-zero left module presented by 27 relations for 14 generators>>
+##  <A non-zero left module presented by 22 relations for 13 generators>>
 ##  gap> m := IsomorphismOfFiltration( filt );
 ##  <A non-zero isomorphism of left modules>
 ##  ]]></Example>

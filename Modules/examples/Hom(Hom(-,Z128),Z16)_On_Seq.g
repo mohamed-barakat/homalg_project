@@ -42,8 +42,7 @@
 ##  
 ##  the map is currently represented by the above 1 x 1 matrix
 ##  gap> M_ := Kernel( alpha2 );
-##  <A cyclic left module presented by yet unknown relations for a cyclic generato\
-##  r>
+##  <A cyclic left module presented by 2 relations for a cyclic generator>
 ##  gap> alpha1 := KernelEmb( alpha2 );
 ##  <A monomorphism of left modules>
 ##  gap> seq := HomalgComplex( alpha2 );
@@ -112,7 +111,7 @@
 ##  at homology degree: 13
 ##  Z/( 256 )/< |[ 8 ]| > 
 ##  -------------------------
-##  [ [  2 ] ]
+##  [ [  6 ] ]
 ##  
 ##  modulo [ 256 ]
 ##  
@@ -139,7 +138,7 @@
 ##  at homology degree: 10
 ##  Z/( 256 )/< |[ 8 ]| >
 ##  -------------------------
-##  [ [  2 ] ]
+##  [ [  6 ] ]
 ##  
 ##  modulo [ 256 ]
 ##  
@@ -166,7 +165,7 @@
 ##  at homology degree: 7
 ##  Z/( 256 )/< |[ 8 ]| >
 ##  -------------------------
-##  [ [  2 ] ]
+##  [ [  6 ] ]
 ##  
 ##  modulo [ 256 ]
 ##  
@@ -193,7 +192,7 @@
 ##  at homology degree: 4
 ##  Z/( 256 )/< |[ 8 ]| >
 ##  -------------------------
-##  [ [  2 ] ]
+##  [ [  6 ] ]
 ##  
 ##  modulo [ 256 ]
 ##  

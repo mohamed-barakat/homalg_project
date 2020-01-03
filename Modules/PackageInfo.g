@@ -5,7 +5,7 @@ PackageName := "Modules",
 Subtitle := "A homalg based package for the Abelian category of finitely presented modules over computable rings",
 
 Version := Maximum( [
-  "2020.05.15", ## Mohamed's version
+  "2020.10.02", ## Mohamed's version
 ## this line prevents merge conflicts
   "2020.02.05", ## Markus' version
 ## this line prevents merge conflicts
@@ -158,7 +158,7 @@ Dependencies := rec(
   NeededOtherPackages := [
                    [ "MatricesForHomalg", ">=2020.05.09" ],
                    [ "ToolsForHomalg", ">=2013.04.12" ],
-                   [ "homalg", ">=2019.09.01" ],
+                   [ "homalg", ">=2020.10.02" ],
                    [ "GaussForHomalg", ">=2019.09.01" ],
                    [ "GAPDoc", ">= 1.0" ] ],
   SuggestedOtherPackages := [ ],
