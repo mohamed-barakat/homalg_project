@@ -2517,6 +2517,10 @@ InstallGlobalFunction( HomalgMatrixWithAttributes,
             Concatenation( [ matrix, TypeOfHomalgMatrix( R ) ], attributes )
             );
     
+    if HOMALG_MATRICES.Eager = true and not IsEmptyMatrix( matrix ) then
+        Eval( matrix );
+    fi;
+    
     return matrix;
     
 end );
