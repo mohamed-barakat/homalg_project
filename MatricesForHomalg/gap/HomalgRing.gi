@@ -2185,6 +2185,19 @@ InstallMethod( PolynomialRing,
         [ IsHomalgInternalRingRep, IsList ],
         
   function( R, indets )
+
+    Error( "only univariate polynomial rings over internal homalg fields are supported, ",
+           "for multivariate polynomial rings or more general coefficients rings R ",
+           "construct the coefficients ring in an external CAS which support the desired construction\n" );
+    
+end );
+
+##
+InstallMethod( PolynomialRing,
+        "for homalg internal rings",
+        [ IsHomalgInternalRingRep, IsList ],
+        
+  function( R, indets )
     local ar, r, var, nr_var, properties, S, l;
     
     ar := _PrepareInputForPolynomialRing( R, indets );
@@ -2198,6 +2211,10 @@ InstallMethod( PolynomialRing,
     S := PolynomialRing( r!.ring, var );
     
     var := IndeterminatesOfPolynomialRing( S );
+
+    if not ( HasIsFieldForHomalg( R ) and IsFieldForHomalg( R ) and Length( var ) <= 1 ) then
+        TryNextMethod( );
+    fi;
     
     S := CallFuncList( CreateHomalgRing, Concatenation( [ S ], properties ) );
     
