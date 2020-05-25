@@ -108,6 +108,8 @@ InstallValue( CommonHomalgTableForSingularTools,
                    return homalgSendBlocking( [ "imap(", HomalgRing( r ), r, ")" ], [ "poly" ], R, HOMALG_IO.Pictograms.CopyElement );
                    
                  end,
+
+               Display :=  A -> homalgSendBlocking( [ "print(transpose(", A, "))" ], "need_display", HOMALG_IO.Pictograms.Display ),
                
                ShallowCopy := C -> homalgSendBlocking( [ C ], [ "matrix" ], HOMALG_IO.Pictograms.CopyMatrix ),
                

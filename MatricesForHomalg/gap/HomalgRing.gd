@@ -268,6 +268,19 @@ DeclareProperty( "IsDiscreteValuationRing",
 DeclareProperty( "IsFreePolynomialRing",
         IsHomalgRing );
 
+##  <#GAPDoc Label="IsFreeAssociativeRing">
+##  <ManSection>
+##    <Prop Arg="R" Name="IsFreeAssociativeRing"/>
+##    <Returns><C>true</C> or <C>false</C></Returns>
+##    <Description>
+##      <A>R</A> is a ring for &homalg;.
+##    </Description>
+##  </ManSection>
+##  <#/GAPDoc>
+##
+DeclareProperty( "IsFreeAssociativeRing",
+        IsHomalgRing );
+
 ##  <#GAPDoc Label="IsWeylRing">
 ##  <ManSection>
 ##    <Prop Arg="R" Name="IsWeylRing"/>
@@ -1146,6 +1159,18 @@ DeclareAttribute( "IndeterminatesOfPolynomialRing",
 DeclareAttribute( "RelativeIndeterminatesOfPolynomialRing",
         IsHomalgRing );
 
+##  <#GAPDoc Label="IndeterminatesOfFreeAssociativeRing">
+##  <ManSection>
+##    <Attr Arg="R" Name="IndeterminatesOfFreeAssociativeRing"/>
+##    <Returns>a list of &homalg; ring elements</Returns>
+##    <Description>
+##      The list of indeterminates of the &homalg; polynomial ring <A>R</A>.
+##    </Description>
+##  </ManSection>
+##  <#/GAPDoc>
+DeclareAttribute( "IndeterminatesOfFreeAssociativeRing",
+        IsHomalgRing );
+
 ##  <#GAPDoc Label="IndeterminateCoordinatesOfRingOfDerivations">
 ##  <ManSection>
 ##    <Attr Arg="R" Name="IndeterminateCoordinatesOfRingOfDerivations"/>
@@ -1550,6 +1575,8 @@ DeclareGlobalFunction( "_CreateHomalgRingToTestProperties" );
 DeclareOperation( "ParseListOfIndeterminates",
         [ IsList ] );
 
+DeclareGlobalFunction( "_PrepareInputForFreeAssociativeRing" );
+
 DeclareGlobalFunction( "_PrepareInputForPolynomialRing" );
 
 #DeclareOperation( "PolynomialRing",
@@ -1582,6 +1609,9 @@ DeclareOperation( "PolynomialRingWithWeightedOrdering",
 DeclareAttribute( "PolynomialRingWithWeightedOrdering",
         IsHomalgRing );
 
+DeclareOperation( "FreeAssociativeRing",
+        [ IsHomalgRing, IsList ] );
+
 DeclareOperation( "RingOfDerivations",
         [ IsHomalgRing, IsList ] );
 
@@ -1610,6 +1640,9 @@ DeclareOperation( "PseudoDoubleShiftAlgebra",
         [ IsHomalgRing, IsList ] );
 
 DeclareOperation( "DoubleShiftAlgebra",
+        [ IsHomalgRing, IsList ] );
+
+DeclareOperation( "RelationsOfBiasedDoubleShiftAlgebra",
         [ IsHomalgRing, IsList ] );
 
 DeclareOperation( "BiasedDoubleShiftAlgebra",

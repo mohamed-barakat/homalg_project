@@ -121,6 +121,13 @@ InstallValue( CommonHomalgTableForRings,
                     
                     brackets := [ "<", ">" ];
                     
+                ## the free associative algebra:
+                elif HasIndeterminatesOfFreeAssociativeRing( R ) then
+                    
+                    var := IndeterminatesOfFreeAssociativeRing( R );
+                    
+                    brackets := [ "<", ">" ];
+                    
                 ## the (free) polynomial ring (relative version):
                 elif HasBaseRing( R ) and HasRelativeIndeterminatesOfPolynomialRing( R ) and
                   not IsIdenticalObj( R, BaseRing( R ) ) then
@@ -527,6 +534,17 @@ InstallMethod( Indeterminates,
   function( R )
     
     return IndeterminatesOfPolynomialRing( R );
+    
+end );
+
+##
+InstallMethod( Indeterminates,
+        "for homalg rings",
+        [ IsHomalgRing and HasIndeterminatesOfFreeAssociativeRing ],
+        
+  function( R )
+    
+    return IndeterminatesOfFreeAssociativeRing( R );
     
 end );
 
@@ -1134,6 +1152,57 @@ InstallMethod( SetRingProperties,
     SetIsIntegralDomain( S, true );
     
     SetBasisAlgorithmRespectsPrincipalIdeals( S, true );
+    
+end );
+
+##
+InstallMethod( SetRingProperties,
+        "for homalg rings",
+        [ IsHomalgRing and IsFreeAssociativeRing, IsHomalgRing, IsList ],
+        
+  function( A, r, var )
+    local param, paramA, d;
+    
+    d := Length( var );
+    
+    if d > 0 then
+        SetIsFinite( A, false );
+    fi;
+    
+    SetCoefficientsRing( A, r );
+    
+    if HasRationalParameters( r ) then
+        param := RationalParameters( r );
+        paramA := List( param, a -> a / A );
+        Perform( [ 1 .. Length( param ) ], function( i ) SetName( paramA[i], Name( param[i] ) ); end );
+        SetRationalParameters( A, paramA );
+    fi;
+    
+    SetCharacteristic( A, Characteristic( r ) );
+    
+    SetIsCommutative( A, Length( var ) <= 1 );
+    
+    SetIndeterminatesOfFreeAssociativeRing( A, var );
+    
+    if d > 0 then
+        SetIsLeftArtinian( A, false );
+        SetIsRightArtinian( A, false );
+    fi;
+    
+    SetIsLeftNoetherian( A, true );
+    SetIsRightNoetherian( A, true );
+    
+    if HasIsIntegralDomain( r ) and IsIntegralDomain( r ) then
+        SetIsIntegralDomain( A, true );
+    fi;
+    
+    if d > 0 then
+        SetIsLeftPrincipalIdealRing( A, false );
+        SetIsRightPrincipalIdealRing( A, false );
+        SetIsPrincipalIdealRing( A, false );
+    fi;
+    
+    SetBasisAlgorithmRespectsPrincipalIdeals( A, true );
     
 end );
 
@@ -2118,6 +2187,54 @@ InstallMethod( ParseListOfIndeterminates,
     od;
     
     return indets;
+    
+end );
+
+##
+InstallGlobalFunction( _PrepareInputForFreeAssociativeRing,
+  function( r, indets )
+    local var, nr_var, properties, param;
+    
+    if HasRingRelations( r ) then
+        Error( "free rings over homalg residue class rings are not supported yet\n" );
+    fi;
+    
+    if not ( HasIsFieldForHomalg( r ) and IsFieldForHomalg( r ) ) and
+       not ( HasIsIntegersForHomalg( r ) and IsIntegersForHomalg( r ) ) then
+        
+        Error( "only a field or the ring of integers are supported by (this interface to) Letterplace\n" );
+        
+    fi;
+    
+    ## get the new indeterminates for the ring and save them in var
+    if IsString( indets ) and indets <> "" then
+        var := SplitString( indets, "," );
+    elif indets <> [ ] and ForAll( indets, i -> IsString( i ) and i <> "" ) then
+        var := indets;
+    else
+        Error( "either a non-empty list of indeterminates or a comma separated string of them must be provided as the second argument\n" );
+    fi;
+    
+    if not IsDuplicateFree( var ) then
+        Error( "your list of indeterminates is not duplicate free: ", var, "\n" );
+    fi;
+    
+    nr_var := Length( var );
+    
+    properties := [ IsCommutative ];
+    
+    ## K[x] is a principal ideal ring for a field K
+    if Length( var ) = 1 and HasIsFieldForHomalg( r ) and IsFieldForHomalg( r ) then
+        Add( properties, IsPrincipalIdealRing );
+    fi;
+    
+    if HasRationalParameters( r ) then
+        param := Concatenation( ",", JoinStringsWithSeparator( RationalParameters( r ) ) );
+    else
+        param := "";
+    fi;
+    
+    return [ var, properties, param ];
     
 end );
 

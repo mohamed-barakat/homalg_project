@@ -198,7 +198,7 @@ InstallGlobalFunction( _PrepareInputForExteriorRing,
 end );
 
 ##
-InstallGlobalFunction( _PrepareInputForPseudoDoubleShiftAlgebra,
+InstallGlobalFunction( _PrepareInputForDoubleShiftAlgebra,
   function( R, indets )
     local var, nr_var, shift, nr_shift, r, param, base;
     
@@ -257,5 +257,104 @@ InstallGlobalFunction( _PrepareInputForPseudoDoubleShiftAlgebra,
     fi;
     
     return [ r, var, shift, param, base ];
+    
+end );
+
+##
+InstallMethod( RelationsOfBiasedDoubleShiftAlgebra,
+        "for homalg rings",
+        [ IsHomalgExternalRingRep, IsList ],
+        
+  function( R, indets )
+    local ar, r, var, shift, param, base, all, F, b, n, rels,
+          base_var, l, i, j, pairs, Ds, D_s, steps;
+    
+    ar := _PrepareInputForDoubleShiftAlgebra( R, indets );
+    
+    r := ar[1];
+    var := ar[2];
+    shift := ar[3];
+    param := ar[4];
+    base := ar[5];
+    
+    all := Concatenation( base, var, shift );
+    
+    F := FreeAssociativeRing( r, all );
+    
+    b := Length( base );
+    
+    n := Length( shift ) / 2;
+    
+    steps := ValueOption( "steps" );
+    
+    if IsRat( steps ) then
+        steps := ListWithIdenticalEntries( n, steps );
+    elif not ( IsList( steps ) and Length( steps ) = n and ForAll( steps, IsRat ) ) then
+        steps := ListWithIdenticalEntries( n, 1 );
+    fi;
+    
+    rels := [ ];
+    
+    base_var := Concatenation( base, var );
+
+    l := Length( base_var );
+    
+    for i in [ 1 .. l ] do
+        for j in [ i + 1 .. l ] do
+            Add( rels, Concatenation( base_var[i], "*", base_var[j], "-", base_var[j], "*", base_var[i] ) / F );
+        od;
+    od;
+    
+    pairs := IsIdenticalObj( ValueOption( "pairs" ), true );
+    
+    if pairs then
+        Ds := shift{List( [ 1 .. n ], i -> 2 * i - 1 )};
+        D_s := shift{List( [ 1 .. n ], i -> 2 * i )};
+    else
+        Ds := shift{[ 1 .. n ]};
+        D_s := shift{[ n + 1 .. 2 * n ]};
+    fi;
+    
+    l := Length( base );
+    
+    for i in [ 1 .. n ] do
+        for j in [ 1 .. l ] do
+            Add( rels, Concatenation( Ds[i], "*", base[j], "-", base[j], "*", Ds[i] ) / F );
+            Add( rels, Concatenation( D_s[i], "*", base[j], "-", base[j], "*", D_s[i] ) / F );
+        od;
+    od;
+    
+    for i in [ 1 .. n ] do
+        for j in [ i + 1 .. n ] do
+            Add( rels, Concatenation( Ds[i], "*", Ds[j], "-", Ds[j], "*", Ds[i] ) / F );
+            Add( rels, Concatenation( D_s[i], "*", D_s[j], "-", D_s[j], "*", D_s[i] ) / F );
+        od;
+    od;
+    
+    for i in [ 1 .. n ] do
+        for j in Concatenation( [ 1 .. i - 1 ], [ i + 1 .. n ] ) do
+            Add( rels, Concatenation( Ds[i], "*", D_s[j], "-", D_s[j], "*", Ds[i] ) / F );
+            Add( rels, Concatenation( Ds[i], "*", var[j], "-", var[j], "*", Ds[i] ) / F );
+            Add( rels, Concatenation( D_s[i], "*", var[j], "-", var[j], "*", D_s[i] ) / F );
+        od;
+    od;
+    
+    steps := ValueOption( "steps" );
+    
+    if IsRat( steps ) then
+        steps := ListWithIdenticalEntries( n, steps );
+    elif not ( IsList( steps ) and Length( steps ) = n and ForAll( steps, IsRat ) ) then
+        steps := ListWithIdenticalEntries( n, 1 );
+    fi;
+
+    steps := List( steps, String );
+    
+    for i in [ 1 .. n ] do
+        Add( rels, Concatenation( Ds[i], "*", var[i], "-", var[i], "*", Ds[i], "+(", steps[i], ")*", Ds[i] ) / F );
+        Add( rels, Concatenation( D_s[i], "*", var[i], "-", var[i], "*", D_s[i], "-(", steps[i], ")*", D_s[i] ) / F );
+        Add( rels, Concatenation( Ds[i], "*", D_s[i], "-1" ) / F );
+    od;
+    
+    return HomalgMatrix( rels, Length( rels ), 1, F );
     
 end );
