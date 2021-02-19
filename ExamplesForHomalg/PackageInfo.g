@@ -4,7 +4,7 @@ PackageName := "ExamplesForHomalg",
 
 Subtitle := "Examples for the GAP Package homalg",
 
-Version := "2020.10-02",
+Version := "2021.02-02",
 
 Date := Concatenation( "01/", ~.Version{[ 6, 7 ]}, "/", ~.Version{[ 1 .. 4 ]} ),
 
@@ -94,7 +94,7 @@ Dependencies := rec(
   NeededOtherPackages := [
                 [ "MatricesForHomalg", ">= 2020.05.09" ],
                 [ "HomalgToCAS", ">= 2011.08.25" ],
-                [ "RingsForHomalg", ">= 2020.05.09" ],
+                [ "RingsForHomalg", ">= 2021.02-03" ],
                 [ "Modules", ">= 2020.05.09" ],
                 [ "homalg", ">= 2015.06.01" ],
                 [ "GaussForHomalg", ">=2019.09.01" ],
