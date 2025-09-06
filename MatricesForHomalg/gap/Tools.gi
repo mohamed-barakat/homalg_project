@@ -4113,6 +4113,21 @@ InstallMethod( Pullback,
         
         return Pullback( phi!.RingMapFromAmbientRing, M );
         
+    elif HasAmbientRing( S ) then
+        
+        R := AmbientRing( R );
+        S := AmbientRing( S );
+        
+        Assert( 0, IsIdenticalObj( R, S ) );
+        
+        M := R * M;
+        
+        if not IsBound( phi!.RingMapFromAmbientRing ) then
+            phi!.RingMapFromAmbientRing := RingMap( ImagesOfRingMapAsColumnMatrix( phi ), S, T );
+        fi;
+        
+        return Pullback( phi!.RingMapFromAmbientRing, M );
+        
     fi;
     
     r := NumberRows( M );
