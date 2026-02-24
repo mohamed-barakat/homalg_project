@@ -115,3 +115,15 @@ InstallMethod( Visualize,
     TryNextMethod( );
     
 end );
+
+## StringDisplayObj was removed from GAP.jl v0.16.4
+BindGlobal( "StringDisplayObj",
+  function(obj)
+    local str, out;
+    str := "";
+    out := OutputTextString(str, false);
+    SetPrintFormattingStatus(out, false);
+    CALL_WITH_STREAM(out, Display, [obj]);
+    CloseStream(out);
+    return str;
+end );
